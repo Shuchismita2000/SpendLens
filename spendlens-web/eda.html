@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>EDA — SpendLens</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css" />
+<link rel="stylesheet" href="css/console.css" />
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="topnav-inner wrap" style="padding-left:0;padding-right:0;">
+    <div class="brand"><span class="brand-mark" id="nav-mini-aperture"></span>SpendLens</div>
+    <div class="navlinks">
+      <a href="index.html">Overview</a>
+      <a href="console.html">Console</a>
+      <a href="eda.html" class="active">EDA</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+  <div class="console-head">
+    <h1>Exploratory Data Analysis</h1>
+    <p><span id="eda-nweeks" class="mono"></span> weeks &middot; <span id="eda-daterange" class="mono"></span> &middot; <span id="eda-nchannels" class="mono"></span> channels — computed live from the same dataset the model trains on.</p>
+  </div>
+
+  <div class="grid grid-2" style="margin:24px 0;">
+    <div class="chart-card" style="height:340px;"><div class="chart-title">Revenue &amp; units over time</div><canvas id="eda-chart-revenue-units"></canvas></div>
+    <div class="chart-card" style="height:340px;"><div class="chart-title">Spend by channel over time</div><canvas id="eda-chart-spend-area"></canvas></div>
+  </div>
+
+  <div class="section-head" style="margin-top:36px;">
+    <h2>Naive spend → outcome correlation</h2>
+    <p class="section-desc">Raw spend vs. revenue/units, ignoring adstock and saturation entirely. Expect these to look weak or misleading — that's the whole reason the transforms exist. Don't over-interpret this table on its own.</p>
+  </div>
+  <div class="card" style="margin-bottom:36px;">
+    <table><thead><tr><th>Channel</th><th>Corr. with Revenue</th><th>Corr. with Units</th></tr></thead>
+    <tbody id="eda-corr-table"></tbody></table>
+  </div>
+
+  <div class="section-head"><h2>Distributions</h2></div>
+  <div class="grid grid-2" id="eda-distributions" style="margin-bottom:36px;"></div>
+
+  <div class="section-head"><h2>Promo / stock-out / delivery-delay sanity checks</h2><p class="section-desc">Confirms the ops and pricing controls actually move the outcomes they're supposed to — the same checks in <code>notebooks/01_eda.ipynb</code>.</p></div>
+  <div class="card" style="margin-bottom:60px;">
+    <table><thead><tr><th>Condition</th><th>With flag</th><th>Without flag</th><th>Δ</th></tr></thead>
+    <tbody id="eda-checks-table"></tbody></table>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="wrap" style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+    <span>SpendLens EDA — Aurel &amp; Co.</span>
+    <span>Computed client-side from js/data.js</span>
+  </div>
+</footer>
+
+<script src="js/data.js"></script>
+<script src="js/aperture.js"></script>
+<script src="js/console.js"></script>
+<script src="js/eda.js"></script>
+</body>
+</html>

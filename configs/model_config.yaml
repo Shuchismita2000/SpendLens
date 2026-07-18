@@ -1,0 +1,99 @@
+# SpendLens MMM — central configuration
+# Every module (features, training, optimization, monitoring) reads this file.
+# Change bounds/thresholds here, not in code.
+
+project:
+  name: "SpendLens"
+  client: "Aurel & Co."
+  currency: "INR"
+
+paths:
+  raw_data: "data/raw/aurel_weekly_observed.csv"
+  processed_data: "data/processed/modeling_dataset.csv"
+  calendar_events: "data/external/calendar_events.csv"
+  model_artifact: "outputs/model_artifacts/spendlens_model.joblib"
+  run_history: "outputs/model_artifacts/run_history.json"
+  cv_report: "outputs/reports/cv_report.json"
+  recovery_report: "outputs/reports/recovery_report.json"
+  drift_report: "outputs/reports/drift_report.json"
+  optimizer_report: "outputs/reports/optimizer_report.json"
+  plots_dir: "outputs/plots"
+
+target:
+  # units_sold is the primary demand target (see dataset design notes):
+  # revenue conflates volume and price, so we model demand and convert
+  # back to revenue/₹ terms only at the reporting/optimization layer.
+  column: "units_sold"
+
+channels:
+  - name: meta
+    spend_col: spend_meta
+    min_weekly_spend: 40000
+    max_weekly_spend: 320000
+  - name: google
+    spend_col: spend_google
+    min_weekly_spend: 30000
+    max_weekly_spend: 250000
+  - name: influencer
+    spend_col: spend_influencer
+    min_weekly_spend: 0
+    max_weekly_spend: 180000
+  - name: email_sms
+    spend_col: spend_email_sms
+    min_weekly_spend: 5000
+    max_weekly_spend: 40000
+  - name: affiliate
+    spend_col: spend_affiliate
+    min_weekly_spend: 0
+    max_weekly_spend: 110000
+  - name: tv_ooh
+    spend_col: spend_tv_ooh
+    min_weekly_spend: 0
+    max_weekly_spend: 220000
+
+# Non-media controls fed into the model unshifted/untransformed (passthrough,
+# scaled). Mediator columns (website_sessions, branded_search_index) are
+# deliberately EXCLUDED from this list — see dataset generator docstring.
+controls:
+  continuous:
+    - avg_price
+    - discount_rate
+    - consumer_confidence
+    - category_search_index
+    - month_sin
+    - month_cos
+    - week_sin
+    - week_cos
+  binary:
+    - festive_flag
+    - payday_week
+    - sale_event_flag
+    - stock_out_flag
+    - delivery_delay_flag
+
+cross_validation:
+  method: "expanding_window"   # sklearn TimeSeriesSplit
+  n_splits: 5
+  min_train_weeks: 52          # don't validate until at least 1 year seen
+  gap: 0
+
+hyperparameter_search:
+  method: "randomized"          # randomized search over joint adstock/saturation/elasticnet space
+  n_iter: 150
+  random_state: 42
+  adstock_lambda_bounds: [0.02, 0.85]
+  saturation_s_bounds: [1.0, 3.0]
+  # k (half-saturation point) searched as a fraction of each channel's own
+  # historical max spend, so bounds auto-scale per channel
+  saturation_k_frac_bounds: [0.15, 0.85]
+  elasticnet_alpha_bounds_log10: [-3, 2]
+  elasticnet_l1_ratio_bounds: [0.0, 1.0]
+
+drift:
+  coefficient_pct_change_threshold: 0.25   # flag if |Δcoef| / |prev coef| > 25%
+  lookback_runs: 1                          # compare to the immediately prior run
+
+optimization:
+  method: "SLSQP"
+  default_weekly_budget: 460000   # ~ current total weekly media spend
+  max_iter: 200

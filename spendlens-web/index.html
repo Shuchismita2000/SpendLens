@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SpendLens — Weekly Marketing Mix Copilot</title>
+<meta name="description" content="SpendLens turns scattered weekly ad spend into a focused, defensible budget recommendation for Aurel & Co." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css" />
+<link rel="stylesheet" href="css/landing.css" />
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="topnav-inner wrap" style="padding-left:0;padding-right:0;">
+    <div class="brand" id="brand-mark-slot">
+      <span class="brand-mark" id="nav-mini-aperture"></span>
+      SpendLens
+    </div>
+    <div class="navlinks">
+      <a href="index.html" class="active">Overview</a>
+      <a href="console.html">Console</a>
+      <a href="eda.html">EDA</a>
+      <span class="hide-mobile"><a href="console.html#chat" class="btn btn-primary" style="padding:8px 16px;">Ask the model</a></span>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow hero-eyebrow">MMM COPILOT &middot; AUREL &amp; CO.</div>
+      <h1>Every rupee of ad spend,<br><em>brought into focus.</em></h1>
+      <p class="lede">
+        SpendLens is a weekly marketing-mix copilot that turns six noisy spend channels,
+        price, promos, and macro conditions into one answer a growth team can act on same-day:
+        where does next week's budget go.
+      </p>
+      <div class="hero-ctas">
+        <a href="console.html" class="btn btn-primary">Open the console →</a>
+        <a href="eda.html" class="btn btn-ghost">Explore the data</a>
+      </div>
+      <div class="hero-statline">
+        <div class="hero-stat"><div class="num" id="stat-mape">—</div><div class="lbl">CV MAPE</div></div>
+        <div class="hero-stat"><div class="num" id="stat-lift">—</div><div class="lbl">Predicted lift</div></div>
+        <div class="hero-stat"><div class="num" id="stat-shape">—</div><div class="lbl">Saturation shape match</div></div>
+        <div class="hero-stat"><div class="num" id="stat-channels">—</div><div class="lbl">Channels modeled</div></div>
+      </div>
+    </div>
+    <div class="aperture-stage" id="hero-aperture">
+      <div class="aperture-caption">adstock &rarr; saturation &rarr; ElasticNet, fit in one pass</div>
+    </div>
+  </div>
+</header>
+
+<section class="traps">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Three traps most MMM builds fall into</h2>
+      <p class="section-desc">SpendLens is built specifically to avoid these — not as a slogan, but as measurable design choices.</p>
+    </div>
+    <div class="grid grid-3">
+      <div class="card trap-card">
+        <div class="trap-tag">Trap 01 — Leakage</div>
+        <h3>Validating on the past</h3>
+        <p>A random train/test split lets a model "see" next month while being scored on last month — invisible in the demo, fatal in production.</p>
+        <div class="fix" id="trap-leakage-fact">—</div>
+      </div>
+      <div class="card trap-card">
+        <div class="trap-tag">Trap 02 — Collinearity</div>
+        <h3>Manual VIF pruning</h3>
+        <p>Ad channels move together (shared promo calendars). Plain regression gives unstable coefficients that flip which channel "wins" week to week.</p>
+        <div class="fix" id="trap-collinearity-fact">—</div>
+      </div>
+      <div class="card trap-card">
+        <div class="trap-tag">Trap 03 — Silent drift</div>
+        <h3>A model marketers can't audit</h3>
+        <p>An automated weekly retrain that silently changes its mind about a channel erodes trust fast — and nobody's watching a notebook.</p>
+        <div class="fix" id="trap-trust-fact">—</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pillars">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>What's actually under the hood</h2>
+    </div>
+    <div class="grid grid-2">
+      <div class="card pillar">
+        <div class="pillar-icon">◐</div>
+        <div><h4>Adstock + saturation, one pipeline</h4><p>Geometric decay and Hill saturation are sklearn-native transformers, tuned jointly with the ElasticNet penalty — not hand-fit before regression.</p></div>
+      </div>
+      <div class="card pillar">
+        <div class="pillar-icon">▤</div>
+        <div><h4>Expanding-window CV</h4><p>Walk-forward validation only. Training window grows forward in time, matching exactly how the model is used in production.</p></div>
+      </div>
+      <div class="card pillar">
+        <div class="pillar-icon">◈</div>
+        <div><h4>Validated against ground truth</h4><p>Synthetic data with known adstock/saturation parameters lets us prove the pipeline recovers the truth, not just fits noise.</p></div>
+      </div>
+      <div class="card pillar">
+        <div class="pillar-icon">⚠</div>
+        <div><h4>Automated drift monitoring</h4><p>Every retrain compares channel coefficients to the prior run and flags swings past a configurable threshold — the marketer's trust signal.</p></div>
+      </div>
+      <div class="card pillar">
+        <div class="pillar-icon">∑</div>
+        <div><h4>Constrained optimization</h4><p>SLSQP solves a real concave-maximization problem for next week's allocation, respecting per-channel min/max spend bounds.</p></div>
+      </div>
+      <div class="card pillar">
+        <div class="pillar-icon">✓</div>
+        <div><h4>Controls, not just spend</h4><p>Price, discount, stock-outs, delivery delays, and macro demand are modeled explicitly — so media never gets credit for someone else's effect.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="flow">
+  <div class="wrap">
+    <div class="section-head"><h2>From raw spend to a budget decision</h2></div>
+    <div class="flow-track" id="flow-track"></div>
+  </div>
+</section>
+
+<section class="final-cta">
+  <div class="wrap">
+    <h2>See this week's number.</h2>
+    <p>Six sections: overview, channel performance, diminishing returns, budget recommendation, trust &amp; stability, and external factors — plus a chatbot grounded in the same numbers.</p>
+    <a href="console.html" class="btn btn-primary">Open the console →</a>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap" style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+    <span>SpendLens — built for Aurel &amp; Co. (fictional D2C skincare client)</span>
+    <span>Ridge/ElasticNet &middot; expanding-window CV &middot; adstock+saturation &middot; SLSQP</span>
+  </div>
+</footer>
+
+<script src="js/data.js"></script>
+<script src="js/aperture.js"></script>
+<script src="js/landing.js"></script>
+<script>
+  document.getElementById("nav-mini-aperture").innerHTML = buildMiniAperture({ size: 24 });
+</script>
+</body>
+</html>

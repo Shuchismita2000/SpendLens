@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Console — SpendLens</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css" />
+<link rel="stylesheet" href="css/console.css" />
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+<nav class="topnav">
+  <div class="topnav-inner wrap" style="padding-left:0;padding-right:0;">
+    <div class="brand"><span class="brand-mark" id="nav-mini-aperture"></span>SpendLens</div>
+    <div class="navlinks">
+      <a href="index.html">Overview</a>
+      <a href="console.html" class="active">Console</a>
+      <a href="eda.html">EDA</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+  <div class="console-head">
+    <h1>Weekly Marketing Console</h1>
+    <p>Aurel &amp; Co. &middot; model trained on <span id="head-nweeks" class="mono"></span> weeks &middot; last retrained <span id="head-trained" class="mono"></span></p>
+  </div>
+
+  <div class="tabbar">
+    <button class="tab-btn active" data-target="tab-overview"><span class="dot" style="background:#6bbf8a"></span>Overview</button>
+    <button class="tab-btn" data-target="tab-channels"><span class="dot" style="background:#5fc9c0"></span>Channel Performance</button>
+    <button class="tab-btn" data-target="tab-diminishing"><span class="dot" style="background:#e0b25c"></span>Diminishing Returns</button>
+    <button class="tab-btn" data-target="tab-budget"><span class="dot" style="background:#e0665c"></span>Budget Recommendation</button>
+    <button class="tab-btn" data-target="tab-trust"><span class="dot" style="background:#e0a25c"></span>Trust &amp; Stability</button>
+    <button class="tab-btn" data-target="tab-external"><span class="dot" style="background:#a888d1"></span>External Factors</button>
+    <button class="tab-btn" data-target="tab-chat" id="chat"><span class="dot" style="background:#8ea6c9"></span>Ask SpendLens</button>
+  </div>
+
+  <!-- ============ 1. OVERVIEW ============ -->
+  <section id="tab-overview" class="tab-panel active">
+    <div class="grid grid-4" style="margin-bottom:20px;">
+      <div class="card"><div class="card-title">Revenue (last 4 wks)</div><div class="card-value" id="ov-revenue">—</div></div>
+      <div class="card"><div class="card-title">Total spend (last 4 wks)</div><div class="card-value" id="ov-spend">—</div></div>
+      <div class="card"><div class="card-title">Blended ROI</div><div class="card-value" id="ov-roi">—</div></div>
+      <div class="card"><div class="card-title">Orders (last 4 wks)</div><div class="card-value" id="ov-orders">—</div></div>
+    </div>
+    <div class="grid grid-2">
+      <div class="chart-card" style="height:360px;"><div class="chart-title">Revenue vs. Spend</div><canvas id="chart-revenue-spend"></canvas></div>
+      <div class="chart-card" style="height:360px;"><div class="chart-title">Orders trend</div><canvas id="chart-orders"></canvas></div>
+    </div>
+  </section>
+
+  <!-- ============ 2. CHANNEL PERFORMANCE ============ -->
+  <section id="tab-channels" class="tab-panel">
+    <div class="section-head"><h2>Channel Performance</h2><p class="section-desc">The core MMM output: how much revenue each channel is actually driving, adjusted for adstock and saturation — not just raw spend share.</p></div>
+    <div class="grid grid-2" style="margin-bottom:20px;">
+      <div class="chart-card" style="height:340px;"><div class="chart-title">Contribution by channel (%)</div><canvas id="chart-contribution"></canvas></div>
+      <div class="chart-card" style="height:340px;"><div class="chart-title">Spend vs. ROI</div><canvas id="chart-spend-roi"></canvas></div>
+    </div>
+    <div class="card">
+      <table><thead><tr><th>Channel</th><th>Spend</th><th>Attributed Revenue</th><th>ROI</th><th>Contribution %</th></tr></thead>
+      <tbody id="channel-perf-table"></tbody></table>
+    </div>
+  </section>
+
+  <!-- ============ 3. DIMINISHING RETURNS ============ -->
+  <section id="tab-diminishing" class="tab-panel">
+    <div class="section-head"><h2>Diminishing Returns</h2><p class="section-desc">Steady-state response curve: if a channel spent this amount every week indefinitely, this is the model's expected weekly contribution.</p></div>
+    <div class="card" style="margin-bottom:20px;">
+      <label class="field-label">Channel</label>
+      <select id="dr-channel-select"></select>
+    </div>
+    <div class="chart-card" style="height:380px;"><canvas id="chart-diminishing"></canvas></div>
+    <div id="dr-insight" class="alert insight-box"></div>
+    <p class="section-desc" style="margin-top:14px;">Note: adstock decay is harder to identify than saturation shape with ~130 weeks of data (see model validation) — treat the exact half-saturation ₹ figure as directional, especially for slow-decay channels like TV/OOH.</p>
+  </section>
+
+  <!-- ============ 4. BUDGET RECOMMENDATION ============ -->
+  <section id="tab-budget" class="tab-panel">
+    <div class="section-head"><h2>Budget Recommendation</h2><p class="section-desc">Constrained optimization (marginal-utility water-filling — the same separable concave objective SLSQP solves in the Python pipeline) across per-channel min/max spend bounds.</p></div>
+    <div class="card" style="margin-bottom:20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+      <div><label class="field-label">Total weekly budget (₹)</label><input type="number" id="budget-input" step="10000" style="width:180px;" /></div>
+      <div style="margin-left:auto;text-align:right;"><div class="card-title">Expected lift vs. even split</div><div class="card-value" id="budget-lift" style="color:var(--green);">—</div></div>
+    </div>
+    <div class="grid grid-2">
+      <div class="card">
+        <table><thead><tr><th>Channel</th><th>Current</th><th>Recommended</th><th>Change</th></tr></thead>
+        <tbody id="budget-table"></tbody></table>
+      </div>
+      <div class="chart-card" style="height:340px;"><canvas id="chart-budget"></canvas></div>
+    </div>
+  </section>
+
+  <!-- ============ 5. TRUST & STABILITY ============ -->
+  <section id="tab-trust" class="tab-panel">
+    <div class="section-head"><h2>Trust &amp; Stability</h2><p class="section-desc">The differentiator: proof that this week's recommendation isn't a black box changing its mind without telling anyone.</p></div>
+    <div class="chart-card" style="height:340px;margin-bottom:20px;">
+      <div class="chart-title">Coefficient stability across retrains</div>
+      <canvas id="chart-stability"></canvas>
+      <p id="stability-empty" class="section-desc" style="display:none;padding-top:20px;">Need at least 2 retrain runs to show a stability trend. Run <code>scripts/weekly_retrain.py</code> again.</p>
+    </div>
+    <div style="margin-bottom:20px;">
+      <div class="card-title" style="margin-bottom:10px;">Drift alerts (latest retrain)</div>
+      <div id="drift-alerts"></div>
+    </div>
+    <div class="grid grid-3">
+      <div class="card"><div class="card-title">CV MAPE</div><div class="card-value" id="cv-mape">—</div></div>
+      <div class="card"><div class="card-title">CV R²</div><div class="card-value" id="cv-r2">—</div></div>
+      <div class="card"><div class="card-title">Saturation shape match</div><div class="card-value" id="cv-shape">—</div></div>
+    </div>
+  </section>
+
+  <!-- ============ 6. EXTERNAL FACTORS ============ -->
+  <section id="tab-external" class="tab-panel">
+    <div class="section-head"><h2>External Factors</h2><p class="section-desc">Seasonality and promotions are modeled as explicit controls — not left for media coefficients to silently absorb.</p></div>
+    <div class="chart-card" style="height:340px;margin-bottom:20px;"><div class="chart-title">Seasonality: category demand index</div><canvas id="chart-seasonality"></canvas></div>
+    <div class="grid grid-2" style="margin-bottom:20px;">
+      <div class="card"><div class="card-title">Avg. weekly units — promo weeks</div><div class="card-value" id="promo-avg">—</div></div>
+      <div class="card"><div class="card-title">Avg. weekly units — non-promo weeks</div><div class="card-value" id="nonpromo-avg">—</div></div>
+    </div>
+    <div class="chart-card" style="height:320px;"><div class="chart-title">Promotions impact</div><canvas id="chart-promo-box"></canvas></div>
+  </section>
+
+  <!-- ============ 7. CHATBOT ============ -->
+  <section id="tab-chat" class="tab-panel">
+    <div class="section-head"><h2>Ask SpendLens</h2><p class="section-desc">Answers are retrieved from the exact numbers shown elsewhere in this console — never invented.</p></div>
+    <div class="chat-shell">
+      <div class="chat-window">
+        <div class="chat-log" id="chat-log"></div>
+        <div class="chat-suggest">
+          <button>Is Meta saturated?</button>
+          <button>What should I spend on Google next week?</button>
+          <button>Which channels are stable?</button>
+          <button>How accurate is the model?</button>
+        </div>
+        <div class="chat-input-row">
+          <input type="text" id="chat-input" placeholder="Ask about ROI, saturation, budget, or drift…" />
+          <button class="btn btn-primary" id="chat-send">Send</button>
+        </div>
+      </div>
+      <div class="chat-sidebar">
+        <div class="card">
+          <div class="card-title">LLM phrasing</div>
+          <p class="section-desc" style="margin:8px 0 12px;">Optional — free tier at <a href="https://console.groq.com" target="_blank" style="color:var(--aperture);">console.groq.com</a>. Stored only in this browser.</p>
+          <input type="text" id="groq-key-input" placeholder="GROQ_API_KEY" style="width:100%;margin-bottom:10px;" />
+          <span class="pill" id="groq-key-status"></span>
+        </div>
+        <div class="card">
+          <div class="card-title">How this works</div>
+          <p class="section-desc" style="margin-top:8px;">Every answer starts by retrieving structured facts (ROI, drift, optimizer output) already computed in this dashboard. An LLM, if configured, only phrases those facts — it never computes or invents numbers.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer class="site-footer">
+  <div class="wrap" style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+    <span>SpendLens Console — Aurel &amp; Co.</span>
+    <span>Client-side only &middot; no backend required</span>
+  </div>
+</footer>
+
+<script src="js/data.js"></script>
+<script src="js/aperture.js"></script>
+<script src="js/console.js"></script>
+<script src="js/chatbot.js"></script>
+<script>
+  document.getElementById("head-nweeks").textContent = D.model.n_weeks_trained_on;
+  document.getElementById("head-trained").textContent = new Date(D.model.trained_at).toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" });
+</script>
+</body>
+</html>
