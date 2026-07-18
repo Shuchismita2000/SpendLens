@@ -26,7 +26,7 @@ import pandas as pd
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(PROJECT_ROOT))
 
-from src.data.load_data import load_config  # noqa: E402
+from src.process.load_data import load_config  # noqa: E402
 
 
 def load_ground_truth(config: dict) -> dict:
@@ -82,7 +82,7 @@ def compare_saturation_shape(artifact: dict, gt: dict) -> pd.DataFrame:
 def holdout_diagnostics(artifact: dict, config: dict) -> dict:
     import sys as _sys
     _sys.path.insert(0, str(PROJECT_ROOT))
-    from src.data.preprocess import preprocess
+    from src.process.preprocess import preprocess
     from src.features.build_features import build_feature_matrix
     from src.models.train_model import transform_media
 

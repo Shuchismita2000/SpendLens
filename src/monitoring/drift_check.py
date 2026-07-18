@@ -23,7 +23,7 @@ from pathlib import Path
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(PROJECT_ROOT))
 
-from src.data.load_data import load_config  # noqa: E402
+from src.process.load_data import load_config  # noqa: E402
 
 
 def check_drift(config: dict) -> dict:

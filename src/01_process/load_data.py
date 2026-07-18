@@ -1,0 +1,248 @@
+"""
+load_data.py
+============
+Thin, validated loaders for SpendLens's three data sources:
+    - raw weekly performance export (data/raw/)
+    - external marketing calendar (data/external/)
+    - processed modeling dataset (data/processed/, written by preprocess.py)
+
+Kept deliberately dumb: no feature engineering here, just IO + schema checks.
+Feature engineering lives in src/features/build_features.py.
+"""
+"""
+Data Loading Utilities
+
+This module provides helper functions to:
+1. Load project configuration.
+2. Load and validate raw weekly performance data.
+3. Load calendar events.
+4. Load processed datasets.
+
+All file paths are resolved relative to the project root directory.
+"""
+
+from pathlib import Path
+
+import pandas as pd
+import yaml
+
+
+# =============================================================================
+# Project Configuration
+# =============================================================================
+
+# Resolve the project root directory
+# Assumes this file is located at: src/data/
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+
+
+# =============================================================================
+# Required Schema
+# =============================================================================
+
+# Columns that must exist in the raw dataset.
+# Validation is performed before any preprocessing.
+REQUIRED_RAW_COLUMNS = [
+    "week_start",
+    "week_idx",
+    "month",
+    "week_of_year",
+    "festive_flag",
+    "payday_week",
+    "sale_event_flag",
+    "promo_flag",
+    "avg_price",
+    "discount_rate",
+    "coupon_usage_pct",
+    "spend_meta",
+    "spend_google",
+    "spend_influencer",
+    "spend_email_sms",
+    "spend_affiliate",
+    "spend_tv_ooh",
+    "consumer_confidence",
+    "category_search_index",
+    "stock_out_flag",
+    "delivery_delay_flag",
+    "units_sold",
+    "orders",
+    "revenue",
+]
+
+
+# =============================================================================
+# Configuration Loader
+# =============================================================================
+
+def load_config(config_path: str = "configs/model_config.yaml") -> dict:
+    """
+    Load the project's YAML configuration file.
+
+    Parameters
+    ----------
+    config_path : str, optional
+        Relative path to the configuration file.
+
+    Returns
+    -------
+    dict
+        Parsed configuration dictionary.
+    """
+    full_path = PROJECT_ROOT / config_path
+
+    with open(full_path, "r") as f:
+        return yaml.safe_load(f)
+
+
+# =============================================================================
+# Raw Dataset Loader
+# =============================================================================
+
+def load_raw_data(
+    path: str | None = None,
+    config: dict | None = None,
+) -> pd.DataFrame:
+    """
+    Load the raw weekly performance dataset.
+
+    The function:
+    - Reads the CSV file.
+    - Parses the 'week_start' column as datetime.
+    - Validates that all required columns exist.
+    - Sorts the data chronologically.
+
+    Parameters
+    ----------
+    path : str | None
+        Optional custom CSV path.
+    config : dict | None
+        Loaded configuration dictionary.
+
+    Returns
+    -------
+    pd.DataFrame
+        Validated raw dataset.
+
+    Raises
+    ------
+    ValueError
+        If any required columns are missing.
+    """
+    if config is None:
+        config = load_config()
+
+    csv_path = PROJECT_ROOT / (path or config["paths"]["raw_data"])
+
+    # Load CSV while parsing dates
+    df = pd.read_csv(csv_path, parse_dates=["week_start"])
+
+    # Check for missing required columns
+    missing = [c for c in REQUIRED_RAW_COLUMNS if c not in df.columns]
+
+    if missing:
+        raise ValueError(
+            f"Raw data at {csv_path} is missing required columns: {missing}"
+        )
+
+    # Ensure records are ordered by week
+    df = df.sort_values("week_start").reset_index(drop=True)
+
+    return df
+
+
+# =============================================================================
+# Calendar Events Loader
+# =============================================================================
+
+def load_calendar_events(
+    path: str | None = None,
+    config: dict | None = None,
+) -> pd.DataFrame:
+    """
+    Load the calendar events dataset.
+
+    Parameters
+    ----------
+    path : str | None
+        Optional custom CSV path.
+    config : dict | None
+        Loaded configuration dictionary.
+
+    Returns
+    -------
+    pd.DataFrame
+        Calendar events with parsed event dates.
+    """
+    if config is None:
+        config = load_config()
+
+    csv_path = PROJECT_ROOT / (
+        path or config["paths"]["calendar_events"]
+    )
+
+    return pd.read_csv(csv_path, parse_dates=["event_date"])
+
+
+# =============================================================================
+# Processed Dataset Loader
+# =============================================================================
+
+def load_processed_data(
+    path: str | None = None,
+    config: dict | None = None,
+) -> pd.DataFrame:
+    """
+    Load the processed feature-engineered dataset.
+
+    Parameters
+    ----------
+    path : str | None
+        Optional custom CSV path.
+    config : dict | None
+        Loaded configuration dictionary.
+
+    Returns
+    -------
+    pd.DataFrame
+        Processed dataset.
+
+    Raises
+    ------
+    FileNotFoundError
+        If the processed dataset does not exist.
+    """
+    if config is None:
+        config = load_config()
+
+    csv_path = PROJECT_ROOT / (
+        path or config["paths"]["processed_data"]
+    )
+
+    # Ensure the processed dataset exists
+    if not csv_path.exists():
+        raise FileNotFoundError(
+            f"No processed dataset at {csv_path}. "
+            "Run `python src/data/preprocess.py` first."
+        )
+
+    return pd.read_csv(csv_path, parse_dates=["week_start"])
+
+
+# =============================================================================
+# Example Usage
+# =============================================================================
+
+if __name__ == "__main__":
+    # Load project configuration
+    cfg = load_config()
+
+    # Load raw dataset
+    raw = load_raw_data(config=cfg)
+
+    # Display dataset summary
+    print(f"Loaded raw data: {raw.shape[0]} weeks, {raw.shape[1]} columns")
+    print(
+        f"Date range: "
+        f"{raw['week_start'].min().date()} -> "
+        f"{raw['week_start'].max().date()}"
+    )

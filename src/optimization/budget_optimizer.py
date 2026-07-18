@@ -33,14 +33,14 @@ from scipy.optimize import minimize
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(PROJECT_ROOT))
 
-from src.data.load_data import load_config  # noqa: E402
+from src.process.load_data import load_config  # noqa: E402
 from src.features.saturation import HillSaturation  # noqa: E402
 
 
 def compute_last_carry(artifact: dict, config: dict) -> dict:
     """Adstock carry-forward value per channel as of the most recent trained week."""
     import pandas as pd
-    from src.data.preprocess import preprocess
+    from src.process.preprocess import preprocess
     from src.features.adstock import GeometricAdstock
 
     processed = preprocess(config)

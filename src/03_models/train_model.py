@@ -36,8 +36,8 @@ from sklearn.preprocessing import StandardScaler
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(PROJECT_ROOT))
 
-from src.data.load_data import load_config  # noqa: E402
-from src.data.preprocess import preprocess  # noqa: E402
+from src.process.load_data import load_config  # noqa: E402
+from src.process.preprocess import preprocess  # noqa: E402
 from src.features.build_features import build_feature_matrix  # noqa: E402
 from src.features.adstock import GeometricAdstock  # noqa: E402
 from src.features.saturation import HillSaturation  # noqa: E402
