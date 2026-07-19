@@ -44,8 +44,8 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 # Allow direct execution of this script
 sys.path.insert(0, str(PROJECT_ROOT))
 
-from src.process.load_data import load_config  # noqa: E402
-from src.process.preprocess import preprocess  # noqa: E402
+from src.data.load_data import load_config  # noqa: E402
+from src.data.preprocess import preprocess  # noqa: E402
 from src.models.train_model import run_search, save_artifact  # noqa: E402
 from src.models.evaluate import run_evaluation  # noqa: E402
 from src.monitoring.drift_check import check_drift  # noqa: E402

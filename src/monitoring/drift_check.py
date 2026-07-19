@@ -41,7 +41,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[2]
 # Allow importing project modules when running this file directly
 sys.path.insert(0, str(PROJECT_ROOT))
 
-from src.process.load_data import load_config  # noqa: E402
+from src.data.load_data import load_config  # noqa: E402
 
 
 # =============================================================================

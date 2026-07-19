@@ -46,7 +46,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[2]
 # Allow importing project modules when running this file directly
 sys.path.insert(0, str(PROJECT_ROOT))
 
-from src.process.load_data import load_config  # noqa: E402
+from src.data.load_data import load_config  # noqa: E402
 
 
 # =============================================================================
@@ -228,7 +228,7 @@ def holdout_diagnostics(
 
     _sys.path.insert(0, str(PROJECT_ROOT))
 
-    from src.process.preprocess import preprocess
+    from src.data.preprocess import preprocess
     from src.features.build_features import build_feature_matrix
     from src.models.train_model import transform_media
 
