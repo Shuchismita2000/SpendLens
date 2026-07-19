@@ -1,0 +1,222 @@
+[
+  {
+    "trained_at": "2026-07-11T10:32:23.742904+00:00",
+    "coefficients": {
+      "spend_meta": 161.99962621293315,
+      "spend_google": 224.33132532479738,
+      "spend_influencer": 155.62709063258976,
+      "spend_email_sms": 47.67094409027231,
+      "spend_affiliate": 45.61206800993274,
+      "spend_tv_ooh": 35.51169189573014,
+      "avg_price": 301.15065276934047,
+      "discount_rate": 77.48234394295099,
+      "consumer_confidence": -136.47429485231063,
+      "category_search_index": 11.049350446035334,
+      "month_sin": -8.820162793864583,
+      "month_cos": 197.16162851722387,
+      "week_sin": -36.823982654424015,
+      "week_cos": -261.5846685881346,
+      "festive_flag": 28.99760631976455,
+      "payday_week": -37.231088068042666,
+      "sale_event_flag": 11.080407293165985,
+      "stock_out_flag": -207.20319328323228,
+      "delivery_delay_flag": -16.72793024699221
+    },
+    "cv_mean_r2": 0.27653558894790214,
+    "cv_mean_mape": 0.03074781194585614,
+    "best_params": {
+      "lambdas": {
+        "spend_meta": 0.26640084297115385,
+        "spend_google": 0.07032351601720624,
+        "spend_influencer": 0.32616905601210067,
+        "spend_email_sms": 0.23127593114064415,
+        "spend_affiliate": 0.34031467191446835,
+        "spend_tv_ooh": 0.18347642037462175
+      },
+      "k": {
+        "spend_meta": 124802.67601577885,
+        "spend_google": 139727.70689753315,
+        "spend_influencer": 158026.30768543598,
+        "spend_email_sms": 12750.136230216518,
+        "spend_affiliate": 103288.52893370995,
+        "spend_tv_ooh": 179447.83096899596
+      },
+      "s": {
+        "spend_meta": 1.523792749129471,
+        "spend_google": 2.2539046808645375,
+        "spend_influencer": 1.7763076691561301,
+        "spend_email_sms": 1.6907667863389841,
+        "spend_affiliate": 2.067811265444746,
+        "spend_tv_ooh": 2.5437210816878517
+      },
+      "alpha": 0.001966044792899801,
+      "l1_ratio": 0.42909887146925685
+    },
+    "n_weeks_trained_on": 130
+  },
+  {
+    "trained_at": "2026-07-11T10:34:46.978545+00:00",
+    "coefficients": {
+      "spend_meta": 147.63298626864548,
+      "spend_google": 219.5524554465371,
+      "spend_influencer": 151.1493597706016,
+      "spend_email_sms": 55.51708921069511,
+      "spend_affiliate": 39.60768100084893,
+      "spend_tv_ooh": 42.699820773576,
+      "avg_price": 322.0830898624733,
+      "discount_rate": 71.97117860077515,
+      "consumer_confidence": -137.0762234817811,
+      "category_search_index": 5.593232517554747,
+      "month_sin": 54.85109771210369,
+      "month_cos": 186.83521089907515,
+      "week_sin": -104.01611657197382,
+      "week_cos": -265.132994468163,
+      "festive_flag": 32.66798625124997,
+      "payday_week": -39.65526895273411,
+      "sale_event_flag": 13.443361317037391,
+      "stock_out_flag": -207.744733188587,
+      "delivery_delay_flag": -19.214169476185724
+    },
+    "cv_mean_r2": 0.23185506766603287,
+    "cv_mean_mape": 0.03149220573273272,
+    "best_params": {
+      "lambdas": {
+        "spend_meta": 0.26640084297115385,
+        "spend_google": 0.07032351601720624,
+        "spend_influencer": 0.32616905601210067,
+        "spend_email_sms": 0.23127593114064415,
+        "spend_affiliate": 0.34031467191446835,
+        "spend_tv_ooh": 0.18347642037462175
+      },
+      "k": {
+        "spend_meta": 124802.67601577885,
+        "spend_google": 139727.70689753315,
+        "spend_influencer": 158026.30768543598,
+        "spend_email_sms": 12750.136230216518,
+        "spend_affiliate": 103288.52893370995,
+        "spend_tv_ooh": 179447.83096899596
+      },
+      "s": {
+        "spend_meta": 1.523792749129471,
+        "spend_google": 2.2539046808645375,
+        "spend_influencer": 1.7763076691561301,
+        "spend_email_sms": 1.6907667863389841,
+        "spend_affiliate": 2.067811265444746,
+        "spend_tv_ooh": 2.5437210816878517
+      },
+      "alpha": 0.001966044792899801,
+      "l1_ratio": 0.42909887146925685
+    },
+    "n_weeks_trained_on": 131
+  },
+  {
+    "trained_at": "2026-07-11T10:35:08.120504+00:00",
+    "coefficients": {
+      "spend_meta": 135.35070874997473,
+      "spend_google": 216.44068924402808,
+      "spend_influencer": 142.49426655011524,
+      "spend_email_sms": 62.168277708750935,
+      "spend_affiliate": 33.327922029833935,
+      "spend_tv_ooh": 53.17596786611923,
+      "avg_price": 339.58726619397925,
+      "discount_rate": 79.37504161197886,
+      "consumer_confidence": -129.20170880645085,
+      "category_search_index": -4.401515309907474,
+      "month_sin": -11.037814243938964,
+      "month_cos": 218.5573471499545,
+      "week_sin": -40.239548962087724,
+      "week_cos": -283.7273440941019,
+      "festive_flag": 26.592235747300816,
+      "payday_week": -26.47138816206195,
+      "sale_event_flag": 5.624916403203843,
+      "stock_out_flag": -209.45297474779647,
+      "delivery_delay_flag": -23.221545699172186
+    },
+    "cv_mean_r2": -0.04986799159087161,
+    "cv_mean_mape": 0.03268170506367034,
+    "best_params": {
+      "lambdas": {
+        "spend_meta": 0.26640084297115385,
+        "spend_google": 0.07032351601720624,
+        "spend_influencer": 0.32616905601210067,
+        "spend_email_sms": 0.23127593114064415,
+        "spend_affiliate": 0.34031467191446835,
+        "spend_tv_ooh": 0.18347642037462175
+      },
+      "k": {
+        "spend_meta": 124802.67601577885,
+        "spend_google": 139727.70689753315,
+        "spend_influencer": 158026.30768543598,
+        "spend_email_sms": 12750.136230216518,
+        "spend_affiliate": 103288.52893370995,
+        "spend_tv_ooh": 179447.83096899596
+      },
+      "s": {
+        "spend_meta": 1.523792749129471,
+        "spend_google": 2.2539046808645375,
+        "spend_influencer": 1.7763076691561301,
+        "spend_email_sms": 1.6907667863389841,
+        "spend_affiliate": 2.067811265444746,
+        "spend_tv_ooh": 2.5437210816878517
+      },
+      "alpha": 0.001966044792899801,
+      "l1_ratio": 0.42909887146925685
+    },
+    "n_weeks_trained_on": 132
+  },
+  {
+    "trained_at": "2026-07-11T10:35:11.454542+00:00",
+    "coefficients": {
+      "spend_meta": 125.09371989045636,
+      "spend_google": 209.7891944901111,
+      "spend_influencer": 138.67861421420457,
+      "spend_email_sms": 71.68788769299982,
+      "spend_affiliate": 19.86559989565358,
+      "spend_tv_ooh": 57.454624248697584,
+      "avg_price": 351.4207542612456,
+      "discount_rate": 101.33653783141182,
+      "consumer_confidence": -133.53378016089104,
+      "category_search_index": -11.685554807917134,
+      "month_sin": -47.884807258989035,
+      "month_cos": 206.0827399622468,
+      "week_sin": -14.573322920785186,
+      "week_cos": -272.11561565580183,
+      "festive_flag": 10.419167547600301,
+      "payday_week": -28.868642105533183,
+      "sale_event_flag": -6.788664477894663,
+      "stock_out_flag": -207.85976075186488,
+      "delivery_delay_flag": -22.20842853761606
+    },
+    "cv_mean_r2": -0.11621081664750535,
+    "cv_mean_mape": 0.033733034146292626,
+    "best_params": {
+      "lambdas": {
+        "spend_meta": 0.26640084297115385,
+        "spend_google": 0.07032351601720624,
+        "spend_influencer": 0.32616905601210067,
+        "spend_email_sms": 0.23127593114064415,
+        "spend_affiliate": 0.34031467191446835,
+        "spend_tv_ooh": 0.18347642037462175
+      },
+      "k": {
+        "spend_meta": 124802.67601577885,
+        "spend_google": 139727.70689753315,
+        "spend_influencer": 158026.30768543598,
+        "spend_email_sms": 12750.136230216518,
+        "spend_affiliate": 103288.52893370995,
+        "spend_tv_ooh": 179447.83096899596
+      },
+      "s": {
+        "spend_meta": 1.523792749129471,
+        "spend_google": 2.2539046808645375,
+        "spend_influencer": 1.7763076691561301,
+        "spend_email_sms": 1.6907667863389841,
+        "spend_affiliate": 2.067811265444746,
+        "spend_tv_ooh": 2.5437210816878517
+      },
+      "alpha": 0.001966044792899801,
+      "l1_ratio": 0.42909887146925685
+    },
+    "n_weeks_trained_on": 133
+  }
+]

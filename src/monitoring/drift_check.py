@@ -1,31 +1,29 @@
 """
 drift_check.py
-===============
-Compares the latest model run's coefficients against the immediately prior
-run (both stored in outputs/model_artifacts/run_history.json by
-train_model.py). Flags any channel whose coefficient moved more than
-`drift.coefficient_pct_change_threshold` (default 25%) week-over-week.
+==============
 
-This is a PRODUCT decision, not a modeling technique: a marketer who sees
-an automated model silently change its mind about a channel loses trust in
-it. Surfacing "Meta's coefficient just jumped 40%, verify before acting"
-is what makes weekly automated retraining safe to hand to a non-technical
-user without a data scientist reviewing every run.
+Monitor coefficient drift between consecutive Marketing Mix Model (MMM)
+training runs.
+
+This module compares the latest model's channel coefficients against those
+from the previous run (stored in
+`outputs/model_artifacts/run_history.json`) and flags any channel whose
+coefficient changes by more than
+`drift.coefficient_pct_change_threshold` (default: 25%) on a
+week-over-week basis.
+
+While coefficient drift detection is not a modeling technique, it is an
+important operational safeguard. Significant changes in channel
+effectiveness may indicate evolving marketing dynamics, data quality
+issues, or model instability. Surfacing these changes allows marketers to
+review unexpected shifts before acting on automated budget recommendations,
+making routine retraining safer and more transparent.
+
+A JSON drift report is generated for dashboard visualization and
+monitoring.
 
 Run:
     python src/monitoring/drift_check.py
-"""
-"""
-Model Drift Detection
-
-This module monitors coefficient drift between consecutive model
-training runs.
-
-The drift report highlights marketing channels whose estimated
-coefficients have changed significantly, helping identify model
-instability or changes in underlying marketing dynamics.
-
-A JSON report is generated for dashboard visualization and monitoring.
 """
 
 import json

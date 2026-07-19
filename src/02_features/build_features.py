@@ -1,30 +1,30 @@
 """
 build_features.py
-==================
-Deterministic feature engineering, run AFTER preprocess.py:
-    - cyclical (sin/cos) encoding of month and week_of_year, so a linear
-      model sees December and January as adjacent rather than 11 units apart
-    - selects the final control set per configs/model_config.yaml
-      (mediator columns like website_sessions / branded_search_index are
-      deliberately excluded -- see dataset generator docstring)
+=================
 
-Adstock and Hill saturation are NOT applied here. They live inside the
-model Pipeline (src/models/train_model.py) because their parameters
-(lambda, k, s) are tuned jointly with the ElasticNet penalty via the same
-hyperparameter search -- doing the transform here would freeze those
-parameters before the search even starts.
-"""
-"""
-Feature Engineering Utilities
+Deterministic feature engineering for the Marketing Mix Model (MMM),
+executed after `preprocess.py`.
 
-This module prepares the feature matrix used for modeling by:
-1. Creating cyclical time-based features.
+This module prepares the standardized feature matrix by:
+
+1. Creating cyclical (sin/cos) encodings of month and week-of-year so a
+   linear model correctly captures seasonal continuity (e.g., December and
+   January are adjacent rather than 11 units apart).
 2. Selecting marketing channel features.
-3. Selecting control variables.
-4. Separating features, target, and metadata.
+3. Selecting the final set of control variables defined in
+   `configs/model_config.yaml`. Mediator variables (e.g.,
+   `website_sessions` and `branded_search_index`) are intentionally
+   excluded, as described in `generate_dataset.py`.
+4. Separating features, target, and metadata into a standardized feature
+   bundle for downstream modeling.
 
-The resulting output is a standardized feature bundle that can be
-used directly by downstream machine learning models.
+Adstock and Hill saturation transformations are **not** applied here.
+Instead, they are implemented within the modeling pipeline
+(`src/models/train_model.py`) so their parameters (adstock decay λ and
+Hill saturation parameters *k* and *s*) can be jointly optimized with the
+ElasticNet regularization during hyperparameter tuning. Applying these
+transformations during feature engineering would fix their values before
+model selection begins.
 """
 
 import sys

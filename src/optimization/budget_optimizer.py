@@ -1,43 +1,40 @@
 """
 budget_optimizer.py
-====================
-Given the fitted MMM (adstock lambda, saturation k/s, ElasticNet coefficient
-per channel), solve:
+===================
 
-    maximize   sum_i  coef_i * sat_i(adstock_i(spend_i))
-    subject to sum_i  spend_i == total_budget
-               min_i <= spend_i <= max_i   (per configs/model_config.yaml)
+Optimize the allocation of a fixed marketing budget across advertising
+channels using a trained Marketing Mix Model (MMM).
 
-Adstock here uses "continuation" semantics: each channel's decay carries
-forward from its last known historical adstock value (last_carry), so the
-optimizer is solving for NEXT week's spend given real momentum, not
-starting every channel from zero.
-
-Hill saturation composed with a linear coefficient is concave (for
-coef_i > 0), so this is a well-behaved concave-maximization / convex
--minimization problem -- SLSQP with the budget equality constraint and
-per-channel bounds converges reliably without needing a global optimizer.
-
-Run:
-    python src/optimization/budget_optimizer.py
-"""
-"""
-Budget Optimization
-
-This module optimizes the allocation of a fixed marketing budget across
-multiple advertising channels.
-
-The optimizer uses the trained Marketing Mix Model (MMM) to estimate the
-incremental contribution of each channel after applying:
+The optimizer estimates each channel's incremental contribution by applying:
 
 1. Geometric Adstock
 2. Hill Saturation
+3. The fitted ElasticNet coefficient
 
-The objective is to maximize predicted incremental sales (or units sold)
-while respecting channel-specific spending constraints and the total
-available budget.
+It solves the following optimization problem:
 
-Outputs are saved as a JSON report for dashboard visualization.
+    maximize   Σ coef_i * sat_i(adstock_i(spend_i))
+    subject to Σ spend_i = total_budget
+               min_i <= spend_i <= max_i
+
+where channel-specific spending bounds are defined in
+`configs/model_config.yaml`.
+
+Adstock uses **continuation semantics**, meaning each channel's decay starts
+from its last observed historical adstock value (`last_carry`) rather than
+resetting to zero. This allows the optimizer to recommend next week's budget
+while accounting for existing advertising momentum.
+
+Because the Hill saturation function composed with a positive linear
+coefficient is concave, the optimization problem is well behaved. The
+budget allocation is solved efficiently using the SLSQP optimizer with
+budget equality and per-channel bound constraints.
+
+The resulting optimal allocation and expected incremental contribution are
+saved as a JSON report for downstream dashboards and reporting.
+
+Run:
+    python src/optimization/budget_optimizer.py
 """
 
 import json

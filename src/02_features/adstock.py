@@ -1,30 +1,28 @@
 """
 adstock.py
 ==========
-Geometric adstock as an sklearn-compatible transformer.
 
-    adstocked_t = spend_t + lambda * adstocked_{t-1}
+Geometric adstock transformer for Marketing Mix Modeling (MMM).
 
-lambda in [0, 1): higher = longer media memory (TV/influencer-style brand
-carryover), lower = near-immediate decay (search-style intent capture).
+This module implements a custom scikit-learn-compatible transformer that
+models the carryover effect of advertising, where marketing impact decays
+gradually over time rather than disappearing immediately.
 
-Implemented as a TransformerMixin so it can sit inside a Pipeline/
-ColumnTransformer and have its lambda tuned by the SAME hyperparameter
-search that tunes saturation and the ElasticNet penalty — this is what lets
-the whole pipeline fit "in one pass" instead of hand-tuning adstock per
-channel before regression.
-"""
-"""
-Geometric Adstock Transformer
+The transformation follows:
 
-This module implements a custom scikit-learn transformer that applies
-geometric adstock to marketing spend variables.
+    adstocked_t = spend_t + λ * adstocked_{t-1}
 
-Adstock models the carryover effect of advertising, where the impact of
-marketing activities decays gradually over time rather than disappearing
-immediately.
+where λ ∈ [0, 1). Larger values represent longer-lasting advertising
+effects (e.g., TV or influencer campaigns), while smaller values represent
+rapidly decaying channels such as paid search.
 
-The transformer is fully compatible with scikit-learn pipelines.
+Implemented as a `TransformerMixin`, the transformer integrates directly
+into scikit-learn `Pipeline` and `ColumnTransformer` workflows. This allows
+the adstock decay parameter (λ) to be jointly optimized alongside Hill
+saturation parameters and ElasticNet regularization during hyperparameter
+search, enabling the entire MMM pipeline to be trained in a single,
+end-to-end optimization rather than requiring manual adstock tuning before
+regression.
 """
 
 import numpy as np

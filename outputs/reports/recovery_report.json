@@ -1,0 +1,112 @@
+{
+  "evaluated_at": "2026-07-11T10:35:11.454542+00:00",
+  "adstock_recovery": [
+    {
+      "channel": "meta",
+      "true_lambda": 0.35,
+      "fitted_lambda": 0.266,
+      "abs_error": 0.084
+    },
+    {
+      "channel": "google",
+      "true_lambda": 0.2,
+      "fitted_lambda": 0.07,
+      "abs_error": 0.13
+    },
+    {
+      "channel": "influencer",
+      "true_lambda": 0.65,
+      "fitted_lambda": 0.326,
+      "abs_error": 0.324
+    },
+    {
+      "channel": "email_sms",
+      "true_lambda": 0.1,
+      "fitted_lambda": 0.231,
+      "abs_error": 0.131
+    },
+    {
+      "channel": "affiliate",
+      "true_lambda": 0.4,
+      "fitted_lambda": 0.34,
+      "abs_error": 0.06
+    },
+    {
+      "channel": "tv_ooh",
+      "true_lambda": 0.7,
+      "fitted_lambda": 0.183,
+      "abs_error": 0.517
+    }
+  ],
+  "adstock_mean_abs_error": 0.20766666666666667,
+  "saturation_shape_recovery": [
+    {
+      "channel": "meta",
+      "true_k": 180000,
+      "fitted_k": 124803.0,
+      "true_s": 1.6,
+      "fitted_s": 1.52,
+      "shape_correlation": 0.991
+    },
+    {
+      "channel": "google",
+      "true_k": 140000,
+      "fitted_k": 139728.0,
+      "true_s": 1.8,
+      "fitted_s": 2.25,
+      "shape_correlation": 0.999
+    },
+    {
+      "channel": "influencer",
+      "true_k": 90000,
+      "fitted_k": 158026.0,
+      "true_s": 1.3,
+      "fitted_s": 1.78,
+      "shape_correlation": 0.972
+    },
+    {
+      "channel": "email_sms",
+      "true_k": 25000,
+      "fitted_k": 12750.0,
+      "true_s": 1.4,
+      "fitted_s": 1.69,
+      "shape_correlation": 0.968
+    },
+    {
+      "channel": "affiliate",
+      "true_k": 60000,
+      "fitted_k": 103289.0,
+      "true_s": 1.5,
+      "fitted_s": 2.07,
+      "shape_correlation": 0.967
+    },
+    {
+      "channel": "tv_ooh",
+      "true_k": 250000,
+      "fitted_k": 179448.0,
+      "true_s": 1.7,
+      "fitted_s": 2.54,
+      "shape_correlation": 0.981
+    }
+  ],
+  "saturation_mean_shape_correlation": 0.9796666666666666,
+  "cv_metrics": {
+    "mean_r2": -0.11621081664750535,
+    "mean_mape": 0.033733034146292626,
+    "fold_r2": [
+      0.1820850410018814,
+      0.04129004713866802,
+      -0.7160324989490374,
+      0.088287908056781,
+      -0.1766845804858197
+    ],
+    "fold_mape": [
+      0.048896727305229294,
+      0.019483213191042695,
+      0.028161354044257243,
+      0.027229656214275606,
+      0.0448942199766583
+    ]
+  },
+  "in_sample_mape": 0.029549044151054978
+}

@@ -1,41 +1,28 @@
 """
 weekly_retrain.py
-==================
-The automation entrypoint: what a cron job / GitHub Actions workflow would
-call every week when a new week's performance data lands.
+=================
 
-Steps:
-    1. (demo only) simulate one new week of raw data landing, appended to
-       data/raw/aurel_weekly_observed.csv -- in production this step is
-       replaced by an actual data pull (warehouse query, GA/Shopify export,
-       ad platform API, etc.), everything downstream is unchanged.
-    2. preprocess -> build_features -> train_model (joint hyperparameter
-       search + refit)
-    3. evaluate (recovered-vs-true + holdout diagnostics)
-    4. drift_check (compare this run's coefficients to last run's)
-    5. budget_optimizer (recommend next week's allocation)
+Automation entry point for the Marketing Mix Modeling (MMM) retraining
+pipeline. This script is intended to be executed on a regular schedule
+(e.g., via cron or GitHub Actions) whenever a new week's marketing
+performance data becomes available.
 
-Run:
-    python scripts/weekly_retrain.py             # simulate + full pipeline
-    python scripts/weekly_retrain.py --no-simulate  # just rerun on existing data
-"""
-"""
-Model Retraining Pipeline
+Pipeline steps:
+    1. (Optional) Simulate one new week of marketing data and append it to
+       `data/raw/aurel_weekly_observed.csv`. In production, this step is
+       replaced by an actual data ingestion process (e.g., warehouse query,
+       GA/Shopify export, or advertising platform API).
+    2. Preprocess the raw data and engineer model features.
+    3. Train and tune the Marketing Mix Model, performing joint
+       hyperparameter optimization and refitting the final model.
+    4. Evaluate model performance using recovered-vs-true comparisons and
+       holdout diagnostics.
+    5. Check coefficient drift by comparing the current model against the
+       previous version.
+    6. Optimize and recommend next week's marketing budget allocation.
 
-This script orchestrates the complete Marketing Mix Modeling (MMM)
-workflow.
-
-The pipeline performs the following steps:
-
-1. (Optional) Simulate new weekly marketing data.
-2. Preprocess raw data.
-3. Train and tune the Marketing Mix Model.
-4. Evaluate model performance.
-5. Check coefficient drift against the previous model.
-6. Optimize next week's marketing budget.
-
-This serves as the primary entry point for retraining the model whenever
-new data becomes available.
+Usage:
+    python scripts/weekly_retrain.py               # simulate new data + run full pipeline
 """
 
 import argparse

@@ -1,0 +1,63 @@
+{
+  "adstock_lambda": {
+    "meta": 0.35,
+    "google": 0.2,
+    "influencer": 0.65,
+    "email_sms": 0.1,
+    "affiliate": 0.4,
+    "tv_ooh": 0.7
+  },
+  "saturation_units_scale": {
+    "meta": {
+      "k": 180000,
+      "s": 1.6,
+      "ceiling": 1800
+    },
+    "google": {
+      "k": 140000,
+      "s": 1.8,
+      "ceiling": 1400
+    },
+    "influencer": {
+      "k": 90000,
+      "s": 1.3,
+      "ceiling": 900
+    },
+    "email_sms": {
+      "k": 25000,
+      "s": 1.4,
+      "ceiling": 450
+    },
+    "affiliate": {
+      "k": 60000,
+      "s": 1.5,
+      "ceiling": 600
+    },
+    "tv_ooh": {
+      "k": 250000,
+      "s": 1.7,
+      "ceiling": 1200
+    }
+  },
+  "price_elasticity_units": -1.15,
+  "discount_elasticity_units": 0.028,
+  "macro_sensitivity_units": 0.006,
+  "category_sensitivity_units": 0.01,
+  "stockout_loss_frac": 0.22,
+  "delay_extra_returns_pp": 5.5,
+  "base_units": 3500,
+  "trend_units_per_week": 14,
+  "list_price_base": 999.0,
+  "items_per_order": 1.15,
+  "n_weeks": 130,
+  "channels": [
+    "meta",
+    "google",
+    "influencer",
+    "email_sms",
+    "affiliate",
+    "tv_ooh"
+  ],
+  "target_variable": "units_sold (primary demand target); revenue is a derived/downstream metric",
+  "mediator_warning": "website_sessions and branded_search_index are partly caused by media spend (post-treatment mediators). Do not include as MMM regressors without adjustment; use category_search_index and consumer_confidence as the safe exogenous controls."
+}

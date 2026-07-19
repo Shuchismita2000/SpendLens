@@ -1,32 +1,30 @@
 """
 evaluate.py
 ===========
-Two jobs:
-    1. "Recovered vs. true" validation -- since our data is synthetic with
-       KNOWN ground-truth adstock lambda / saturation params baked in
-       (see generate_dataset.py), we can directly check whether the fitted
-       pipeline recovered parameters close to the truth. This is the
-       strongest credibility artifact in the whole project: it proves the
-       METHOD works, not just that a model fit some noisy weekly numbers.
-    2. Standard holdout diagnostics (actual vs predicted plot data, residuals)
-       for the final refit-on-all-data model.
+
+Evaluate the trained Marketing Mix Model (MMM) by assessing both parameter
+recovery and predictive performance.
+
+This module performs two complementary evaluations:
+
+1. **Recovered vs. Ground Truth Validation**
+   Since the training data is synthetic with known adstock decay rates and
+   Hill saturation parameters (defined in `generate_dataset.py`), the fitted
+   model can be directly compared against the true underlying values. This
+   provides a strong validation of the modeling methodology, demonstrating
+   that the pipeline can recover the mechanisms used to generate the data,
+   rather than simply fitting noisy observations.
+
+2. **Prediction Diagnostics**
+   Evaluate predictive performance using holdout diagnostics, including
+   actual vs. predicted comparisons, residual analysis, and overall model
+   performance metrics for the final refit model.
+
+Evaluation artifacts and summary reports are saved as JSON files for
+dashboard visualization and reporting.
 
 Run:
     python src/models/evaluate.py
-"""
-
-"""
-Model Evaluation and Parameter Recovery
-
-This module evaluates the trained Marketing Mix Model (MMM) by:
-
-1. Comparing recovered adstock parameters against ground truth.
-2. Comparing recovered Hill saturation curve shapes.
-3. Generating prediction diagnostics.
-4. Producing a comprehensive evaluation report.
-
-The evaluation artifacts are saved as JSON files for reporting and dashboard
-visualization.
 """
 
 import json

@@ -1,33 +1,30 @@
 """
 cv_utils.py
 ===========
-Expanding-window (walk-forward) CV splitter.
 
-Why not sklearn's TimeSeriesSplit directly: with only 130 weeks and a
-requirement that the FIRST fold already has >= min_train_weeks of history
-(no validating a model trained on 10 weeks of data), TimeSeriesSplit's
-even-split logic doesn't give clean control over the first fold's size.
-This is a thin, explicit alternative that guarantees:
-    - every fold's train set is a strict PREFIX of the data (no shuffling,
-      no future leakage)
-    - the first fold has at least `min_train_weeks` of history
-    - training window only grows across folds (never shrinks/slides)
-"""
+Utilities for expanding-window (walk-forward) cross-validation on time
+series data.
 
-"""
-Time Series Cross-Validation Utilities
+Unlike random cross-validation, this approach preserves the chronological
+order of observations so that future data is never used to predict the
+past, preventing data leakage.
 
-This module provides an expanding window cross-validation strategy
-for time series datasets.
+This module implements a lightweight alternative to scikit-learn's
+`TimeSeriesSplit`. With relatively short marketing time series (e.g.,
+around 130 weekly observations), `TimeSeriesSplit`'s evenly sized folds do
+not provide precise control over the initial training window. In
+particular, this implementation guarantees that the first fold contains at
+least `min_train_weeks` of historical data before any validation occurs.
 
-Unlike random cross-validation, the expanding window approach preserves
-the chronological order of observations, ensuring that future data is
-never used to predict the past.
-
-Each split:
-    - Expands the training set.
-    - Uses the immediately following block as the test set.
-    - Produces non-overlapping test sets.
+Each split guarantees:
+    - The training set is a strict prefix of the time series (no shuffling
+      or future leakage).
+    - The first training fold contains at least `min_train_weeks` of
+      history.
+    - The training window expands monotonically across folds (never
+      shrinks or slides).
+    - The test set is the immediately following block, producing
+      non-overlapping validation periods.
 """
 
 import numpy as np

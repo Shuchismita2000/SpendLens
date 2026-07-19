@@ -1,0 +1,40 @@
+{
+  "success": true,
+  "message": "Optimization terminated successfully",
+  "total_budget": 460000,
+  "optimized_spend": {
+    "spend_meta": 161232.53911839268,
+    "spend_google": 198516.6321659855,
+    "spend_influencer": 82968.98597745999,
+    "spend_email_sms": 17281.84273810904,
+    "spend_affiliate": 4.225323971265882e-08,
+    "spend_tv_ooh": 1.0545299734250428e-08
+  },
+  "predicted_contribution_optimized": {
+    "spend_meta": 2198.0145602194975,
+    "spend_google": 1401.498152687208,
+    "spend_influencer": 461.98739206488153,
+    "spend_email_sms": 220.83764837007317,
+    "spend_affiliate": 18.076348738171312,
+    "spend_tv_ooh": 1.2099522440439843
+  },
+  "predicted_total_contribution_optimized": 4301.6240543238755,
+  "baseline_even_split_spend": {
+    "spend_meta": 76666.66666666667,
+    "spend_google": 76666.66666666667,
+    "spend_influencer": 76666.66666666667,
+    "spend_email_sms": 40000.0,
+    "spend_affiliate": 76666.66666666667,
+    "spend_tv_ooh": 76666.66666666667
+  },
+  "predicted_contribution_even_split": {
+    "spend_meta": 1671.457733601586,
+    "spend_google": 487.1198780674614,
+    "spend_influencer": 433.3326081938237,
+    "spend_email_sms": 271.72340078678207,
+    "spend_affiliate": 196.1920929073193,
+    "spend_tv_ooh": 48.16781317012764
+  },
+  "predicted_total_contribution_even_split": 3107.9935267271,
+  "expected_lift_vs_even_split_pct": 38.40518061997828
+}
