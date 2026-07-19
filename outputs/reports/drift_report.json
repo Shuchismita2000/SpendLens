@@ -1,55 +1,55 @@
 {
   "status": "ok",
-  "prev_run_trained_at": "2026-07-11T10:35:08.120504+00:00",
-  "curr_run_trained_at": "2026-07-11T10:35:11.454542+00:00",
+  "prev_run_trained_at": "2026-07-11T10:35:11.454542+00:00",
+  "curr_run_trained_at": "2026-07-19T11:30:15.388960+00:00",
   "threshold_pct": 25.0,
-  "n_channels_flagged": 1,
+  "n_channels_flagged": 0,
   "flags": [
     {
       "channel": "spend_affiliate",
-      "prev_coefficient": 33.33,
-      "curr_coefficient": 19.87,
-      "pct_change": -40.4,
-      "flagged": true,
-      "flag_level": "red"
-    },
-    {
-      "channel": "spend_email_sms",
-      "prev_coefficient": 62.17,
-      "curr_coefficient": 71.69,
-      "pct_change": 15.3,
+      "prev_coefficient": 19.87,
+      "curr_coefficient": 20.9,
+      "pct_change": 5.2,
       "flagged": false,
       "flag_level": "green"
     },
     {
-      "channel": "spend_tv_ooh",
-      "prev_coefficient": 53.18,
-      "curr_coefficient": 57.45,
-      "pct_change": 8.0,
+      "channel": "spend_email_sms",
+      "prev_coefficient": 71.69,
+      "curr_coefficient": 71.28,
+      "pct_change": -0.6,
       "flagged": false,
       "flag_level": "green"
     },
     {
       "channel": "spend_meta",
-      "prev_coefficient": 135.35,
-      "curr_coefficient": 125.09,
-      "pct_change": -7.6,
+      "prev_coefficient": 125.09,
+      "curr_coefficient": 125.6,
+      "pct_change": 0.4,
+      "flagged": false,
+      "flag_level": "green"
+    },
+    {
+      "channel": "spend_tv_ooh",
+      "prev_coefficient": 57.45,
+      "curr_coefficient": 57.61,
+      "pct_change": 0.3,
       "flagged": false,
       "flag_level": "green"
     },
     {
       "channel": "spend_google",
-      "prev_coefficient": 216.44,
-      "curr_coefficient": 209.79,
-      "pct_change": -3.1,
+      "prev_coefficient": 209.79,
+      "curr_coefficient": 210.0,
+      "pct_change": 0.1,
       "flagged": false,
       "flag_level": "green"
     },
     {
       "channel": "spend_influencer",
-      "prev_coefficient": 142.49,
-      "curr_coefficient": 138.68,
-      "pct_change": -2.7,
+      "prev_coefficient": 138.68,
+      "curr_coefficient": 138.76,
+      "pct_change": 0.1,
       "flagged": false,
       "flag_level": "green"
     }

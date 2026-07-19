@@ -218,5 +218,60 @@
       "l1_ratio": 0.42909887146925685
     },
     "n_weeks_trained_on": 133
+  },
+  {
+    "trained_at": "2026-07-19T11:30:15.388960+00:00",
+    "coefficients": {
+      "spend_meta": 125.60337400952841,
+      "spend_google": 209.9998444267045,
+      "spend_influencer": 138.75602802787893,
+      "spend_email_sms": 71.2821006562285,
+      "spend_affiliate": 20.897728677220613,
+      "spend_tv_ooh": 57.61453424835751,
+      "avg_price": 350.6903815059882,
+      "discount_rate": 101.66068541845303,
+      "consumer_confidence": -132.89325498117395,
+      "category_search_index": -11.418721585498943,
+      "month_sin": -49.6819971567696,
+      "month_cos": 205.61044454903444,
+      "week_sin": -12.13796594531826,
+      "week_cos": -271.03999648202995,
+      "festive_flag": 10.344210316841558,
+      "payday_week": -28.316191742075134,
+      "sale_event_flag": -8.175169233926031,
+      "stock_out_flag": -240.53076042682915,
+      "delivery_delay_flag": -22.132611535028364
+    },
+    "cv_mean_r2": -0.007928142801722559,
+    "cv_mean_mape": 0.03366664390429319,
+    "best_params": {
+      "lambdas": {
+        "spend_meta": 0.26640084297115385,
+        "spend_google": 0.07032351601720624,
+        "spend_influencer": 0.32616905601210067,
+        "spend_email_sms": 0.23127593114064415,
+        "spend_affiliate": 0.34031467191446835,
+        "spend_tv_ooh": 0.18347642037462175
+      },
+      "k": {
+        "spend_meta": 124802.67601577885,
+        "spend_google": 139727.70689753315,
+        "spend_influencer": 158026.30768543598,
+        "spend_email_sms": 12750.136230216518,
+        "spend_affiliate": 103288.52893370995,
+        "spend_tv_ooh": 179447.83096899596
+      },
+      "s": {
+        "spend_meta": 1.523792749129471,
+        "spend_google": 2.2539046808645375,
+        "spend_influencer": 1.7763076691561301,
+        "spend_email_sms": 1.6907667863389841,
+        "spend_affiliate": 2.067811265444746,
+        "spend_tv_ooh": 2.5437210816878517
+      },
+      "alpha": 0.001966044792899801,
+      "l1_ratio": 0.42909887146925685
+    },
+    "n_weeks_trained_on": 134
   }
 ]
